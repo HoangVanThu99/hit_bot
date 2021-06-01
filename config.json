@@ -1,0 +1,15 @@
+{
+    "HIT_GUILD_ID": "809737063075282945",
+
+    "BOT_AVATAR": "bot_avatar.png",
+    "BOT_TOKEN": "ODM4Njc2OTQ3MDQ2MzY3MjUy.YI-kxg.6LnpQ0LaqU2eP3DntOJ0IGfK90M",
+    "COVID_VN_API" : "https://corona.lmao.ninja/v2/countries/vn",
+    "ANIME_IMAGE_FOLDER" : "Image/Anime/",
+    "MEME_IMAGE_FOLDER": "Image/Meme/",
+    "HITGIRL_IMAGE_FOLDER": "Image/HitGirl/",
+    "HITBOY_IMAGE_FOLDER": "Image/HitBoy/",
+    "BOT_COMMANDS_FILE": "Data/bot_commands.xlsx",
+    "POETRY_FILE": "Data/poetry.xlsx",
+    "USERNAME_SPOTIFY": "31nk7japybghksfpimzaossugya4",
+    "PASSWORD_SPOTIFY": "Vladimir99"
+}
