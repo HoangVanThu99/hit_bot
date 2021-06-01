@@ -1,1 +1,1 @@
-worker node .\hit_bot.js
+worker: node hit_bot.js
