@@ -15,6 +15,7 @@ client.on('ready',()=>{
     //console.log(server.members.cache.filter(member => member.presence.status !== "offline").map(user => user.id))
 
     const sleepingTime= new schedule.RecurrenceRule();
+    sleepingTime.tz = 'Asia/Ho_Chi_Minh';
     sleepingTime.hour = [0];
     sleepingTime.minute = 0;
     sleepingTime.second = 0;
@@ -32,6 +33,7 @@ client.on('ready',()=>{
       })
       
     const weatherTime = new schedule.RecurrenceRule();
+    weatherTime.tz = 'Asia/Ho_Chi_Minh';
     weatherTime.hour = [7];
     weatherTime.minute = 0;
     weatherTime.second = 0;
@@ -48,6 +50,7 @@ client.on('ready',()=>{
 
 
     const covidTime = new schedule.RecurrenceRule();
+    covidTime.tz = 'Asia/Ho_Chi_Minh';
     covidTime.hour = [6,12,18];
     covidTime.minute = 0;
     covidTime.second = 0;
