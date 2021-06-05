@@ -62,6 +62,7 @@ const processCommand = (message) => {
         case "level":
             break
         case "help":
+            Help(message)
             break
         case "setlevel":
             break
@@ -78,18 +79,43 @@ const processCommand = (message) => {
 
 const Test = (message) =>{
     onlineMemberList = message.guild.members.cache.filter(member => member.presence.status !== "offline").map(user => user.id)
-    console.log(onlineMemberList)
+    const result = excelToJson({
+        sourceFile: config.SLEEP_WISH_FILE,
+        columnToKey: {
+            A: '{{A1}}',
+            B: '{{B1}}',
+        }
+    });
+    var l = result['Sheet1'].length
+    var rs = result['Sheet1'].splice(1)[Math.floor(Math.random() * (l-1))]
+    var content = rs['noi_dung']
     var strTag = ``
-    var content = "Bây giờ là 24 giờ. Muộn rồi đi ngủ sớm thôi các bạn ơi"
     onlineMemberList.forEach(memberID =>{
         strTag += `<@${memberID}>`
     })
-    message.channel.send(content + "\n" + strTag)
+    message.channel.send(content + "\n")
+    try
+    {
+        if (rs['bai_hat'] == undefined || rs['bai_hat'] == null) return;
+        const attachment = new Discord.MessageAttachment(rs['bai_hat'])
+        message.channel.send(attachment)
+    }
+    catch
+    {
+
+    }
+   
+}
+
+const Help = (message) =>{
+    var content = `Chào <@${message.author.id}> , tôi là Hit Bot, một trợ lý đắc lực của HIT COMUNITY. Hãy sử dụng câu lệnh `
+    + `***hit:commands*** để xem danh sách các câu lệnh`
+    message.channel.send(content)
 }
 
 const Commands = (message) =>{
     const result = excelToJson({
-        sourceFile: 'Data/bot_commands.xlsx',
+        sourceFile: config.BOT_COMMANDS_FILE,
         columnToKey: {
             A: '{{A1}}',
             B: '{{B1}}',

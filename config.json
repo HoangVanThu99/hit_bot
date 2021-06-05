@@ -9,6 +9,7 @@
     "HITGIRL_IMAGE_FOLDER": "Image/HitGirl/",
     "HITBOY_IMAGE_FOLDER": "Image/HitBoy/",
     "BOT_COMMANDS_FILE": "Data/bot_commands.xlsx",
+    "SLEEP_WISH_FILE": "Data/sleep_wish.xlsx",
     "POETRY_FILE": "Data/poetry.xlsx",
     "USERNAME_SPOTIFY": "31nk7japybghksfpimzaossugya4",
     "PASSWORD_SPOTIFY": "Vladimir99"

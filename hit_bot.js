@@ -4,6 +4,7 @@ const config = require('./config.json')
 const schedule = require('node-schedule')
 const moment = require ("moment-timezone")
 const services = require('./services.js')
+const excelToJson = require('convert-excel-to-json');
 
 moment.tz.setDefault("Asia/Ho_Chi_Minh");
 
@@ -17,19 +18,38 @@ client.on('ready',()=>{
     const sleepingTime= new schedule.RecurrenceRule();
     sleepingTime.tz = 'Asia/Ho_Chi_Minh';
     sleepingTime.hour = [0];
-    sleepingTime.minute = 0;
+    sleepingTime.minute = 5;
     sleepingTime.second = 0;
 
     schedule.scheduleJob(
       sleepingTime,
       async () => {
         onlineMemberList = await server.members.cache.filter(member => member.presence.status !== "offline").map(user => user.id)
-        var content = "Bây giờ là 24 giờ. Muộn rồi đi ngủ sớm thôi các bạn ơi"
+        const result = excelToJson({
+            sourceFile: config.SLEEP_WISH_FILE,
+            columnToKey: {
+                A: '{{A1}}',
+                B: '{{B1}}',
+            }
+        });
+        var l = result['Sheet1'].length
+        var rs = result['Sheet1'].splice(1)[Math.floor(Math.random() * (l-1))]
+        var content = rs['noi_dung']
         var strTag = ``
         onlineMemberList.forEach(memberID =>{
             strTag += `<@${memberID}>`
         })
         channel.send(content + "\n" + strTag)
+        try
+        {
+            if (rs['bai_hat'] == undefined || rs['bai_hat'] == null) return;
+            const attachment = new Discord.MessageAttachment(rs['bai_hat'])
+            channel.send(attachment)
+        }
+        catch
+        {
+    
+        }
       })
       
     const weatherTime = new schedule.RecurrenceRule();
@@ -51,7 +71,7 @@ client.on('ready',()=>{
 
     const covidTime = new schedule.RecurrenceRule();
     covidTime.tz = 'Asia/Ho_Chi_Minh';
-    covidTime.hour = [6,12,18];
+    covidTime.hour = [12,18];
     covidTime.minute = 0;
     covidTime.second = 0;
   
@@ -69,6 +89,7 @@ client.on('ready',()=>{
 
 client.on('guildMemberAdd', member => {
   const str = `Chào mừng  <@${member.user.id}> đến với cộng đồng **HIT COMUNITY**. Đây là cộng đồng CLB HIT trên nền tảng Discord.`
+  + `\nHãy đọc hết nội dung phần chào mừng bên trên để hiểu thêm về cách thức hoạt động của chúng tôi. Cám ơn bạn rất nhiều.`
   + `\nTôi là hit bot, nếu cần được trợ giúp hãy sử dụng câu lệnh ***hit:help***. Tôi luôn có mặt ở mọi nơi, mọi chỗ ^^`
   member.guild.channels.cache.get('820253588769079316')
   .send(str).then(msg => msg.delete({timeout:60000}))
