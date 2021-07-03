@@ -5,6 +5,7 @@ const schedule = require('node-schedule')
 const moment = require ("moment-timezone")
 const services = require('./services.js')
 const excelToJson = require('convert-excel-to-json');
+const fs =  require("fs");
 
 moment.tz.setDefault("Asia/Ho_Chi_Minh");
 
@@ -18,7 +19,7 @@ client.on('ready',()=>{
     const sleepingTime= new schedule.RecurrenceRule();
     sleepingTime.tz = 'Asia/Ho_Chi_Minh';
     sleepingTime.hour = [0];
-    sleepingTime.minute = 5;
+    sleepingTime.minute = 0;
     sleepingTime.second = 0;
 
     schedule.scheduleJob(
@@ -52,6 +53,34 @@ client.on('ready',()=>{
         }
       })
       
+    const girlTime= new schedule.RecurrenceRule();
+    girlTime.tz = 'Asia/Ho_Chi_Minh';
+    girlTime.hour = [8,16,21];
+    girlTime.minute = 10;
+    girlTime.second = 0;
+
+    schedule.scheduleJob(
+      girlTime,
+      async () => {
+        const result = excelToJson({
+            sourceFile: config.CAPTION_GIRL_FILE,
+            columnToKey: {
+                A: '{{A1}}',
+            }
+        });
+        var l = result['Sheet1'].length
+        var rs = result['Sheet1'].splice(1)[Math.floor(Math.random() * (l-1))]
+        var content = rs['noi_dung']
+        
+        const girlImages = await fs.readdirSync(config.GIRL_IMAGE_FOLDER);
+        const attachment = new Discord.MessageAttachment(config.GIRL_IMAGE_FOLDER + girlImages[Math.floor(Math.random() * girlImages.length)])
+        if (content!=null && attachment!=null)
+        {
+          channel.send(content)
+          channel.send(attachment)
+        }
+      })
+
     const weatherTime = new schedule.RecurrenceRule();
     weatherTime.tz = 'Asia/Ho_Chi_Minh';
     weatherTime.hour = [7];
@@ -71,7 +100,7 @@ client.on('ready',()=>{
 
     const covidTime = new schedule.RecurrenceRule();
     covidTime.tz = 'Asia/Ho_Chi_Minh';
-    covidTime.hour = [12,18];
+    covidTime.hour = [18];
     covidTime.minute = 0;
     covidTime.second = 0;
   

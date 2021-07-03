@@ -78,33 +78,20 @@ const processCommand = (message) => {
 }
 
 const Test = (message) =>{
-    onlineMemberList = message.guild.members.cache.filter(member => member.presence.status !== "offline").map(user => user.id)
+    return;
     const result = excelToJson({
-        sourceFile: config.SLEEP_WISH_FILE,
+        sourceFile: config.CAPTION_GIRL_FILE,
         columnToKey: {
             A: '{{A1}}',
-            B: '{{B1}}',
         }
     });
     var l = result['Sheet1'].length
     var rs = result['Sheet1'].splice(1)[Math.floor(Math.random() * (l-1))]
     var content = rs['noi_dung']
-    var strTag = ``
-    onlineMemberList.forEach(memberID =>{
-        strTag += `<@${memberID}>`
-    })
-    message.channel.send(content + "\n")
-    try
-    {
-        if (rs['bai_hat'] == undefined || rs['bai_hat'] == null) return;
-        const attachment = new Discord.MessageAttachment(rs['bai_hat'])
-        message.channel.send(attachment)
-    }
-    catch
-    {
-
-    }
-   
+    message.channel.send(content)
+    const girlImages = fs.readdirSync(config.GIRL_IMAGE_FOLDER);
+    const attachment = new Discord.MessageAttachment(config.GIRL_IMAGE_FOLDER + girlImages[Math.floor(Math.random() * animeImages.length)])
+    message.channel.send(attachment)
 }
 
 const Help = (message) =>{
