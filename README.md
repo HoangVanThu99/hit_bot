@@ -1,1 +1,1 @@
-# BOT của server discord HIT COMUNITY
+# BOT của server discord HIT Comunity
